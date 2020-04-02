@@ -1,0 +1,70 @@
+#Read and attach Data
+	credit<-read.table("C:/Users/alden/OneDrive/Predictive Analytics/HW1/Credit.csv", header=TRUE, sep=",")
+	attach(credit)
+	head(credit)
+
+#Produce plot showing possible linear realtionships
+	plot(Income,Rating, col="purple")
+	plot(Age,Rating, col="purple")
+	plot(Education,Rating, col="purple")
+
+# Simple Linear Regression Models
+	slrfit1<-lm(Rating~Income)
+	slrfit2<-lm(Rating~Age)
+	slrfit3<-lm(Rating~Education)
+
+	summary(slrfit1)
+	summary(slrfit2)
+	summary(slrfit3)
+
+# Confidence intervals
+	confint(slrfit1, level=.95)
+	confint(slrfit2, level=.95)
+	confint(slrfit3, level=.95)
+
+#Prediction and Intervals
+	predict(slrfit1, data.frame(Income=100), interval="prediction", level=.95)
+	predict(slrfit1, data.frame(Income=100), interval="prediction", level=.99)
+
+	predict(slrfit2, data.frame(Age=30), interval="prediction", level=.95)
+	predict(slrfit2, data.frame(Age=30), interval="prediction", level=.99)
+
+	predict(slrfit3, data.frame(Education=13), interval="prediction", level=.95)
+	predict(slrfit3, data.frame(Education=13), interval="prediction", level=.99)
+	
+#Plotting the fit and the 95% Prediction Intervals	
+	newx1 <- seq(min(Income), max(Income), by=0.05)
+	newx2 <- seq(min(Age), max(Age), by=0.05)
+	newx3 <- seq(min(Education), max(Education), by=0.05)
+
+	p1<-predict(slrfit1, data.frame(Income=newx1), interval="prediction", level=.95) 
+	p2<-predict(slrfit2, data.frame(Age=newx2), interval="prediction", level=.95) 
+	p3<-predict(slrfit3, data.frame(Education=newx3), interval="prediction", level=.95) 
+
+	plot(Income, Rating, col="purple")
+	abline(slrfit1, col="red")
+	lines(newx1,p1[,3],col="blue")
+	lines(newx1,p1[,2],col="green")
+	grid()
+
+	plot(Age, Rating, col="purple")
+	abline(slrfit2, col="red")
+	lines(newx2,p2[,3],col="blue")
+	lines(newx2,p2[,2],col="green")
+	grid()
+
+	plot(Education, Rating, col="purple")
+	abline(slrfit3, col="red")
+	lines(newx3,p3[,3],col="blue")
+	lines(newx3,p3[,2],col="green")
+	grid()
+	
+#R Sqaure and Corelation
+	summary(slrfit1)$r.squared
+	cor(Income,Rating)
+
+	summary(slrfit2)$r.squared
+	cor(Age,Rating)
+
+	summary(slrfit3)$r.squared
+	cor(Education,Rating)
