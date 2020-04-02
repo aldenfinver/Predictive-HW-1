@@ -1,4 +1,4 @@
-#Read and attach Data 1
+#Read and attach Data
 	credit<-read.table("C:/Users/alden/OneDrive/Predictive Analytics/HW1/Credit.csv", header=TRUE, sep=",")
 	attach(credit)
 	head(credit)
